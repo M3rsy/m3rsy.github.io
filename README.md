@@ -23,17 +23,11 @@
 
 ## 🌐 Demo
 
-Este proyecto está diseñado para ser publicado mediante **GitHub Pages**.
-
-Una vez desplegado estará disponible en una dirección similar a:
+El proyecto está publicado mediante **GitHub Pages**:
 
 ```text
-https://TU-USUARIO.github.io/cv-gian-carlo/
+https://m3rsy.github.io/
 ```
-
-> ⚠️ Sustituir `TU-USUARIO` por el nombre real de usuario de GitHub.
-
----
 
 # 📖 Sobre el proyecto
 
@@ -528,7 +522,7 @@ para generar una versión más limpia del CV.
 # 📁 Estructura del proyecto
 
 ```text
-cv-gian-carlo/
+m3rsy.github.io/
 │
 ├── index.html
 │
@@ -543,7 +537,8 @@ cv-gian-carlo/
 │
 └── assets/
     └── img/
-        └── perfil.jpg
+        ├── perfil.jpg
+        └── perfil.webp
 ```
 
 ---
@@ -596,13 +591,13 @@ en tu navegador.
 Ejecutar:
 
 ```bash
-git clone https://github.com/TU-USUARIO/cv-gian-carlo.git
+git clone https://github.com/M3rsy/m3rsy.github.io.git
 ```
 
 Entrar al proyecto:
 
 ```bash
-cd cv-gian-carlo
+cd m3rsy.github.io
 ```
 
 Después abre:
@@ -643,10 +638,10 @@ El proyecto está preparado para utilizar **GitHub Pages**.
 
 Crear un nuevo repositorio en GitHub.
 
-Por ejemplo:
+Nombre del repositorio:
 
 ```text
-cv-gian-carlo
+m3rsy.github.io
 ```
 
 ---
@@ -684,7 +679,7 @@ git branch -M main
 Agregar el repositorio remoto:
 
 ```bash
-git remote add origin https://github.com/TU-USUARIO/cv-gian-carlo.git
+git remote add origin https://github.com/M3rsy/m3rsy.github.io.git
 ```
 
 Subir el proyecto:
@@ -743,22 +738,10 @@ GitHub comenzará automáticamente el despliegue.
 
 # 🌐 URL de GitHub Pages
 
-Después del despliegue la página estará disponible aproximadamente en:
+La página está disponible en:
 
 ```text
-https://TU-USUARIO.github.io/cv-gian-carlo/
-```
-
-Por ejemplo, si tu usuario fuera:
-
-```text
-giancarloholmes
-```
-
-la URL sería:
-
-```text
-https://giancarloholmes.github.io/cv-gian-carlo/
+https://m3rsy.github.io/
 ```
 
 ---
@@ -851,14 +834,14 @@ href="#"
 por:
 
 ```html
-href="https://github.com/TU-USUARIO"
+href="https://github.com/M3rsy"
 ```
 
 Ejemplo:
 
 ```html
 <a
-    href="https://github.com/TU-USUARIO"
+    href="https://github.com/M3rsy"
     target="_blank"
     rel="noopener noreferrer"
     aria-label="GitHub"
