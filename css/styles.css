@@ -1802,14 +1802,23 @@ a.contact-item:hover {
    PRINT / PDF
 ============================================== */
 
+@page {
+    size: A4;
+    margin: 12mm;
+}
+
+
 @media print {
 
     .header,
     .scroll-top,
+    .skip-link,
     .hero-buttons,
     .social-links,
     .theme-toggle,
-    .menu-toggle {
+    .menu-toggle,
+    .contact-panel-actions,
+    .image-decoration {
         display: none !important;
     }
 
@@ -1823,6 +1832,22 @@ a.contact-item:hover {
 
     body {
         font-size: 11px;
+        line-height: 1.45;
+
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+
+    main {
+        display: block;
+    }
+
+
+    p,
+    li {
+        orphans: 3;
+        widows: 3;
     }
 
 
@@ -1848,6 +1873,11 @@ a.contact-item:hover {
     }
 
 
+    .hero-description {
+        max-width: none;
+    }
+
+
     .hero-image img {
         height: 300px;
     }
@@ -1855,6 +1885,17 @@ a.contact-item:hover {
 
     .section {
         padding: 26px 0;
+    }
+
+
+    .section-heading {
+        margin-bottom: 22px;
+        break-after: avoid;
+    }
+
+
+    .section-heading h2 {
+        font-size: 27px;
     }
 
 
@@ -1884,6 +1925,7 @@ a.contact-item:hover {
 
 
     .timeline-content,
+    .timeline-item,
     .stack-card,
     .focus-card,
     .project-card,
@@ -1896,10 +1938,22 @@ a.contact-item:hover {
     }
 
 
+    .timeline::before {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+
     .stack-grid,
     .projects-grid {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
+    }
+
+
+    .footer {
+        padding: 16px 0;
+        break-before: avoid;
     }
 
 }
