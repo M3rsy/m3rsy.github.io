@@ -1063,7 +1063,7 @@ body.dark .personal-data div {
     display: grid;
 
     grid-template-columns:
-        repeat(4, minmax(0, 1fr));
+        repeat(3, minmax(0, 1fr));
 
     gap: 18px;
 }
@@ -1134,6 +1134,25 @@ body.dark .personal-data div {
     color: var(--text-secondary);
 
     font-size: 12px;
+}
+
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 18px;
+
+    color: var(--primary);
+
+    font-size: 12px;
+    font-weight: 750;
+}
+
+
+.project-link:hover {
+    color: var(--primary-dark);
 }
 
 
