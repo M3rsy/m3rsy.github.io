@@ -10,32 +10,45 @@ const navMenu = document.getElementById("navMenu");
 const scrollTopButton = document.getElementById("scrollTop");
 const printCV = document.getElementById("printCV");
 const currentYear = document.getElementById("currentYear");
+const prefersReducedMotion =
+    window.matchMedia("(prefers-reduced-motion: reduce)");
 
 
 /* =============================================
    CURRENT YEAR
 ============================================= */
 
-currentYear.textContent = new Date().getFullYear();
+if (currentYear) {
+    currentYear.textContent = new Date().getFullYear();
+}
 
 
 /* =============================================
    RESPONSIVE MENU
 ============================================= */
 
-menuToggle.addEventListener("click", () => {
+function setMenuState(isOpen) {
 
-    navMenu.classList.toggle("active");
+    navMenu.classList.toggle("active", isOpen);
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Cerrar menú" : "Abrir menú"
+    );
 
     const icon = menuToggle.querySelector("i");
 
-    if (navMenu.classList.contains("active")) {
-        icon.classList.remove("fa-bars");
-        icon.classList.add("fa-xmark");
-    } else {
-        icon.classList.remove("fa-xmark");
-        icon.classList.add("fa-bars");
+    if (icon) {
+        icon.classList.toggle("fa-bars", !isOpen);
+        icon.classList.toggle("fa-xmark", isOpen);
     }
+
+}
+
+
+menuToggle.addEventListener("click", () => {
+
+    setMenuState(!navMenu.classList.contains("active"));
 
 });
 
@@ -46,16 +59,21 @@ document
 
         link.addEventListener("click", () => {
 
-            navMenu.classList.remove("active");
-
-            const icon = menuToggle.querySelector("i");
-
-            icon.classList.remove("fa-xmark");
-            icon.classList.add("fa-bars");
+            setMenuState(false);
 
         });
 
     });
+
+
+document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape" && navMenu.classList.contains("active")) {
+        setMenuState(false);
+        menuToggle.focus();
+    }
+
+});
 
 
 /* =============================================
@@ -68,6 +86,8 @@ const savedTheme = localStorage.getItem("theme");
 if (savedTheme === "dark") {
 
     document.body.classList.add("dark");
+    themeToggle.setAttribute("aria-pressed", "true");
+    themeToggle.setAttribute("aria-label", "Activar tema claro");
 
     themeToggle.innerHTML =
         '<i class="fa-solid fa-sun"></i>';
@@ -83,6 +103,8 @@ themeToggle.addEventListener("click", () => {
     if (document.body.classList.contains("dark")) {
 
         localStorage.setItem("theme", "dark");
+        themeToggle.setAttribute("aria-pressed", "true");
+        themeToggle.setAttribute("aria-label", "Activar tema claro");
 
         themeToggle.innerHTML =
             '<i class="fa-solid fa-sun"></i>';
@@ -90,6 +112,8 @@ themeToggle.addEventListener("click", () => {
     } else {
 
         localStorage.setItem("theme", "light");
+        themeToggle.setAttribute("aria-pressed", "false");
+        themeToggle.setAttribute("aria-label", "Activar tema oscuro");
 
         themeToggle.innerHTML =
             '<i class="fa-solid fa-moon"></i>';
@@ -122,7 +146,7 @@ scrollTopButton.addEventListener("click", () => {
 
     window.scrollTo({
         top: 0,
-        behavior: "smooth"
+        behavior: prefersReducedMotion.matches ? "auto" : "smooth"
     });
 
 });
@@ -265,7 +289,11 @@ function typingEffect() {
 }
 
 
-typingEffect();
+if (prefersReducedMotion.matches) {
+    typingElement.textContent = texts[0];
+} else {
+    typingEffect();
+}
 
 
 /* =============================================
@@ -316,6 +344,10 @@ const observer =
 
 
 animatedElements.forEach(element => {
+
+    if (prefersReducedMotion.matches) {
+        return;
+    }
 
     element.style.opacity = "0";
 

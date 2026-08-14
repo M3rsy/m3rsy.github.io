@@ -102,6 +102,33 @@ button {
 }
 
 
+:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 4px;
+}
+
+
+.skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 2000;
+
+    padding: 10px 16px;
+    border-radius: 10px;
+
+    background: var(--text);
+    color: var(--background);
+
+    transform: translateY(-150%);
+}
+
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+
 .container {
     width: min(1160px, 90%);
     margin-inline: auto;
@@ -1747,6 +1774,25 @@ a.contact-item:hover {
         flex-direction: column;
 
         text-align: center;
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
     }
 
 }
