@@ -1586,6 +1586,21 @@ a.contact-item:hover {
 }
 
 
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+        opacity 0.65s ease,
+        transform 0.65s ease;
+}
+
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
 /* ==============================================
    RESPONSIVE
 ============================================== */
@@ -1935,6 +1950,12 @@ a.contact-item:hover {
         break-inside: avoid;
 
         box-shadow: none !important;
+    }
+
+
+    .reveal {
+        opacity: 1 !important;
+        transform: none !important;
     }
 
 
