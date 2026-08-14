@@ -4,12 +4,12 @@
    ELEMENTS
 ============================================= */
 
-const themeToggle = document.getElementById("themeToggle");
-const menuToggle = document.getElementById("menuToggle");
-const navMenu = document.getElementById("navMenu");
-const scrollTopButton = document.getElementById("scrollTop");
-const printCV = document.getElementById("printCV");
-const currentYear = document.getElementById("currentYear");
+const themeToggle = document.getElementById("theme-toggle");
+const menuToggle = document.getElementById("menu-toggle");
+const navMenu = document.getElementById("nav-menu");
+const scrollTopButton = document.getElementById("scroll-top");
+const printCV = document.getElementById("print-cv");
+const currentYear = document.getElementById("current-year");
 const prefersReducedMotion =
     window.matchMedia("(prefers-reduced-motion: reduce)");
 
