@@ -31,7 +31,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_HTML: true
-          VALIDATE_HTML_PRETTIER: false
 
       - name: Comprobar enlaces
         uses: lycheeverse/lychee-action@v2.9.0
