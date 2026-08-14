@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://m3rsy.github.io/sitemap.xml
