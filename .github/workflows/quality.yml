@@ -54,7 +54,7 @@ jobs:
           persist-credentials: false
 
       - name: Auditar sitio estático
-        uses: treosh/lighthouse-ci-action@v12.6.2
+        uses: treosh/lighthouse-ci-action@12.6.2
         with:
           configPath: ./.lighthouserc.json
           uploadArtifacts: true
