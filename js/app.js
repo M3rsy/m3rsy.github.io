@@ -10,32 +10,45 @@ const navMenu = document.getElementById("navMenu");
 const scrollTopButton = document.getElementById("scrollTop");
 const printCV = document.getElementById("printCV");
 const currentYear = document.getElementById("currentYear");
+const prefersReducedMotion =
+    window.matchMedia("(prefers-reduced-motion: reduce)");
 
 
 /* =============================================
    CURRENT YEAR
 ============================================= */
 
-currentYear.textContent = new Date().getFullYear();
+if (currentYear) {
+    currentYear.textContent = new Date().getFullYear();
+}
 
 
 /* =============================================
    RESPONSIVE MENU
 ============================================= */
 
-menuToggle.addEventListener("click", () => {
+function setMenuState(isOpen) {
 
-    navMenu.classList.toggle("active");
+    navMenu.classList.toggle("active", isOpen);
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Cerrar menú" : "Abrir menú"
+    );
 
     const icon = menuToggle.querySelector("i");
 
-    if (navMenu.classList.contains("active")) {
-        icon.classList.remove("fa-bars");
-        icon.classList.add("fa-xmark");
-    } else {
-        icon.classList.remove("fa-xmark");
-        icon.classList.add("fa-bars");
+    if (icon) {
+        icon.classList.toggle("fa-bars", !isOpen);
+        icon.classList.toggle("fa-xmark", isOpen);
     }
+
+}
+
+
+menuToggle.addEventListener("click", () => {
+
+    setMenuState(!navMenu.classList.contains("active"));
 
 });
 
@@ -46,16 +59,21 @@ document
 
         link.addEventListener("click", () => {
 
-            navMenu.classList.remove("active");
-
-            const icon = menuToggle.querySelector("i");
-
-            icon.classList.remove("fa-xmark");
-            icon.classList.add("fa-bars");
+            setMenuState(false);
 
         });
 
     });
+
+
+document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape" && navMenu.classList.contains("active")) {
+        setMenuState(false);
+        menuToggle.focus();
+    }
+
+});
 
 
 /* =============================================
@@ -68,6 +86,8 @@ const savedTheme = localStorage.getItem("theme");
 if (savedTheme === "dark") {
 
     document.body.classList.add("dark");
+    themeToggle.setAttribute("aria-pressed", "true");
+    themeToggle.setAttribute("aria-label", "Activar tema claro");
 
     themeToggle.innerHTML =
         '<i class="fa-solid fa-sun"></i>';
@@ -83,6 +103,8 @@ themeToggle.addEventListener("click", () => {
     if (document.body.classList.contains("dark")) {
 
         localStorage.setItem("theme", "dark");
+        themeToggle.setAttribute("aria-pressed", "true");
+        themeToggle.setAttribute("aria-label", "Activar tema claro");
 
         themeToggle.innerHTML =
             '<i class="fa-solid fa-sun"></i>';
@@ -90,28 +112,11 @@ themeToggle.addEventListener("click", () => {
     } else {
 
         localStorage.setItem("theme", "light");
+        themeToggle.setAttribute("aria-pressed", "false");
+        themeToggle.setAttribute("aria-label", "Activar tema oscuro");
 
         themeToggle.innerHTML =
             '<i class="fa-solid fa-moon"></i>';
-
-    }
-
-});
-
-
-/* =============================================
-   SCROLL TOP
-============================================= */
-
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 500) {
-
-        scrollTopButton.classList.add("show");
-
-    } else {
-
-        scrollTopButton.classList.remove("show");
 
     }
 
@@ -122,7 +127,7 @@ scrollTopButton.addEventListener("click", () => {
 
     window.scrollTo({
         top: 0,
-        behavior: "smooth"
+        behavior: prefersReducedMotion.matches ? "auto" : "smooth"
     });
 
 });
@@ -134,12 +139,16 @@ scrollTopButton.addEventListener("click", () => {
 
 const sections =
     document.querySelectorAll("section[id]");
+const navLinks =
+    document.querySelectorAll(".nav-link");
 
 
-window.addEventListener("scroll", () => {
+function updateScrollState() {
 
     const scrollY = window.scrollY;
+    let activeSectionId = "";
 
+    scrollTopButton.classList.toggle("show", scrollY > 500);
 
     sections.forEach(section => {
 
@@ -153,33 +162,28 @@ window.addEventListener("scroll", () => {
             section.getAttribute("id");
 
 
-        const menuLink =
-            document.querySelector(
-                `.nav-menu a[href="#${sectionId}"]`
-            );
-
-
         if (
             scrollY > sectionTop &&
             scrollY <= sectionTop + sectionHeight
         ) {
-
-            document
-                .querySelectorAll(".nav-link")
-                .forEach(link => {
-                    link.classList.remove("active");
-                });
-
-
-            if (menuLink) {
-                menuLink.classList.add("active");
-            }
-
+            activeSectionId = sectionId;
         }
 
     });
 
-});
+
+    navLinks.forEach(link => {
+        link.classList.toggle(
+            "active",
+            link.getAttribute("href") === `#${activeSectionId}`
+        );
+    });
+
+}
+
+
+window.addEventListener("scroll", updateScrollState, { passive: true });
+updateScrollState();
 
 
 /* =============================================
@@ -265,7 +269,11 @@ function typingEffect() {
 }
 
 
-typingEffect();
+if (prefersReducedMotion.matches) {
+    typingElement.textContent = texts[0];
+} else {
+    typingEffect();
+}
 
 
 /* =============================================
@@ -297,10 +305,7 @@ const observer =
 
                 if (entry.isIntersecting) {
 
-                    entry.target.style.opacity = "1";
-
-                    entry.target.style.transform =
-                        "translateY(0)";
+                    entry.target.classList.add("visible");
 
                     observer.unobserve(entry.target);
 
@@ -317,14 +322,11 @@ const observer =
 
 animatedElements.forEach(element => {
 
-    element.style.opacity = "0";
+    if (prefersReducedMotion.matches) {
+        return;
+    }
 
-    element.style.transform =
-        "translateY(24px)";
-
-    element.style.transition =
-        "opacity .65s ease, transform .65s ease";
-
+    element.classList.add("reveal");
     observer.observe(element);
 
 });
