@@ -123,25 +123,6 @@ themeToggle.addEventListener("click", () => {
 });
 
 
-/* =============================================
-   SCROLL TOP
-============================================= */
-
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 500) {
-
-        scrollTopButton.classList.add("show");
-
-    } else {
-
-        scrollTopButton.classList.remove("show");
-
-    }
-
-});
-
-
 scrollTopButton.addEventListener("click", () => {
 
     window.scrollTo({
@@ -158,12 +139,16 @@ scrollTopButton.addEventListener("click", () => {
 
 const sections =
     document.querySelectorAll("section[id]");
+const navLinks =
+    document.querySelectorAll(".nav-link");
 
 
-window.addEventListener("scroll", () => {
+function updateScrollState() {
 
     const scrollY = window.scrollY;
+    let activeSectionId = "";
 
+    scrollTopButton.classList.toggle("show", scrollY > 500);
 
     sections.forEach(section => {
 
@@ -177,33 +162,28 @@ window.addEventListener("scroll", () => {
             section.getAttribute("id");
 
 
-        const menuLink =
-            document.querySelector(
-                `.nav-menu a[href="#${sectionId}"]`
-            );
-
-
         if (
             scrollY > sectionTop &&
             scrollY <= sectionTop + sectionHeight
         ) {
-
-            document
-                .querySelectorAll(".nav-link")
-                .forEach(link => {
-                    link.classList.remove("active");
-                });
-
-
-            if (menuLink) {
-                menuLink.classList.add("active");
-            }
-
+            activeSectionId = sectionId;
         }
 
     });
 
-});
+
+    navLinks.forEach(link => {
+        link.classList.toggle(
+            "active",
+            link.getAttribute("href") === `#${activeSectionId}`
+        );
+    });
+
+}
+
+
+window.addEventListener("scroll", updateScrollState, { passive: true });
+updateScrollState();
 
 
 /* =============================================
@@ -325,10 +305,7 @@ const observer =
 
                 if (entry.isIntersecting) {
 
-                    entry.target.style.opacity = "1";
-
-                    entry.target.style.transform =
-                        "translateY(0)";
+                    entry.target.classList.add("visible");
 
                     observer.unobserve(entry.target);
 
@@ -349,14 +326,7 @@ animatedElements.forEach(element => {
         return;
     }
 
-    element.style.opacity = "0";
-
-    element.style.transform =
-        "translateY(24px)";
-
-    element.style.transition =
-        "opacity .65s ease, transform .65s ease";
-
+    element.classList.add("reveal");
     observer.observe(element);
 
 });
